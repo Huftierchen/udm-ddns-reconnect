@@ -60,7 +60,7 @@ Create a `docker-compose.yml`:
 ```yaml
 services:
   udm-ddns-reconnect:
-    image: ghcr.io/<YOUR_GITHUB_USER>/<YOUR_REPO>:latest
+    image: ghcr.io/huftierchen/udm-ddns-reconnect:latest
     container_name: udm-ddns-reconnect
     restart: unless-stopped
     environment:
@@ -76,7 +76,7 @@ services:
 
       # Reconnect
       RECONNECT_ENABLED: "true"
-      RECONNECT_CRON: "32 1 * * *"   # daily 01:32
+      RECONNECT_CRON: "31 4 * * *"   # daily 04:31
       SSH_HOST: "192.168.1.1"
       SSH_PORT: "22"
       SSH_USER: "root"
@@ -109,52 +109,9 @@ docker run --rm -it \
   udm-ddns-reconnect:local
 ```
 
-
 ## GitHub Actions (multi-arch image to GHCR)
 
-This repo can build and publish a multi-arch image (`linux/arm64`, `linux/amd64`) to GitHub Container Registry using GitHub Actions.
-
-Add a workflow at `.github/workflows/docker.yml` (example):
-
-```yaml
-name: build-and-push
-
-on:
-  push:
-    branches: [ "main" ]
-  workflow_dispatch:
-
-permissions:
-  contents: read
-  packages: write
-
-jobs:
-  docker:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: docker/setup-qemu-action@v3
-      - uses: docker/setup-buildx-action@v3
-      - uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-      - uses: docker/build-push-action@v6
-        with:
-          context: .
-          push: true
-          platforms: linux/arm64,linux/amd64
-          tags: |
-            ghcr.io/${{ github.repository }}:latest
-            ghcr.io/${{ github.repository }}:${{ github.sha }}
-```
-
-After the first successful run, you can pull:
-
-```bash
-docker pull ghcr.io/<YOUR_GITHUB_USER>/<YOUR_REPO>:latest
-```
+This repo is build and published as a multi-arch image (`linux/arm64`, `linux/amd64`) to GitHub Container Registry using GitHub Actions.
 
 ## Notes / Troubleshooting
 
@@ -167,4 +124,4 @@ Use quotes, or `.env`.
 
 * verify username/password are correct
 * ensure password is not being truncated by YAML (`#` needs quotes!)
-* UDM may use keyboard-interactive auth; the app supports it when `tryKeyboard` is enabled.
+* UDM may use keyboard-interactive auth; the app supports this already.
