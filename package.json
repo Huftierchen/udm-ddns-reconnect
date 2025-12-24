@@ -1,0 +1,11 @@
+{
+  "name": "ddns-reconnect",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "node-cron": "^3.0.3",
+    "ssh2": "^1.16.0"
+  }
+}
