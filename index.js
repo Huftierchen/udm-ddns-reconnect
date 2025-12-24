@@ -182,7 +182,7 @@ async function ddnsLoopTick() {
   }
 
   if (state.lastIp === currentIp) {
-    log("IP unverändert:", currentIp);
+    //log("IP unverändert:", currentIp); stops log spam :)
     return;
   }
 
